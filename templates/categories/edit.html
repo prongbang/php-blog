@@ -1,0 +1,141 @@
+{% extends "base.html" %} {% block title %}Blog{% endblock %} {% block head %} {{ parent() }}
+<style type="text/css"></style>
+{% endblock %} {% block content %}
+
+<!-- content -->
+<div>
+    {{ parent() }}
+    <div class="container-fluid">
+        <div class="side-body padding-top">
+            <h1 class="page-title">
+                <i class="voyager-categories"></i> Edit Category
+            </h1>
+            <div class="page-content container-fluid">
+                <div class="row">
+                    <div class="col-md-12">
+
+                        <div class="panel panel-bordered">
+
+                            <div class="panel-heading">
+                                <h3 class="panel-title">Edit Category</h3>
+                            </div>
+                            <!-- /.box-header -->
+                            <!-- form start -->
+                            <form role="form" class="form-edit-add" action="{{hostname}}/manage/categories/{{category.id}}" method="POST" enctype="multipart/form-data">
+
+                                <!-- PUT Method if we are editing -->
+                                <input type="hidden" name="_method" value="PUT">
+                                
+                                <!-- CSRF TOKEN -->
+                                {{csrf_field()|raw}}
+
+                                <div class="panel-body">
+
+                                    <!-- If we are editing -->
+
+                                    <div class="form-group ">
+                                        <label for="name">parent_id</label>
+                                        <select class="form-control select2 select2-hidden-accessible" name="parent_id" tabindex="-1" aria-hidden="true">
+
+                                            <optgroup label="Custom">
+                                                <option value="">-- None --</option>
+                                            </optgroup>
+
+                                            <optgroup label="Relationship">
+                                                {% for c in categories %}
+                                                <option value="{{c.id}}" {{category.parent_id == c.id ? "selected" : ""}}>{{c.name}}</option>
+                                                {% endfor %}
+                                            </optgroup>
+                                        </select>
+
+                                    </div>
+                                    <div class="form-group ">
+                                        <label for="name">order</label>
+                                        <input type="text" class="form-control" name="order" placeholder="order" value="{{category.order}}" required>
+
+
+                                    </div>
+                                    <div class="form-group ">
+                                        <label for="name">name</label>
+                                        <input type="text" class="form-control" name="name" placeholder="name" value="{{category.name}}" required>
+
+
+                                    </div>
+                                    <div class="form-group ">
+                                        <label for="name">slug</label>
+                                        <input type="text" class="form-control" name="slug" placeholder="slug" value="{{category.slug}}" required>
+                                    </div>
+
+                                </div>
+                                <!-- panel-body -->
+
+                                <div class="panel-footer">
+                                    <button type="submit" class="btn btn-primary save">Save</button>
+                                </div>
+                            </form>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+<!-- end content -->
+{% endblock %} 
+{% block footer %}
+<div></div>
+{{ parent() }}
+<script>
+    activeNav('nav-categories');
+    // last index is unactive 
+    appendBreadcrumb([{
+            label: "Categories",
+            link: "{{hostname}}/manage/categories"
+        },
+        {
+            label: "Edit",
+            link: ""
+        }
+    ]);
+
+    var params = {}
+    var $image
+
+    $('document').ready(function () {
+        $('.toggleswitch').bootstrapToggle();
+
+        //Init datepicker for date fields if data-datepicker attribute defined
+        //or if browser does not handle date inputs
+        $('.form-group input[type=date]').each(function (idx, elt) {
+            if (elt.type != 'date' || elt.hasAttribute('data-datepicker')) {
+                elt.type = 'text';
+                $(elt).datetimepicker($(elt).data('datepicker'));
+            }
+        });
+
+
+        $('.side-body input[data-slug-origin]').each(function (i, el) {
+            $(el).slugify();
+        });
+
+        $('.form-group').on('click', '.remove-multi-image', function (e) {
+            $image = $(this).siblings('img');
+
+            params = {
+                slug: 'categories',
+                image: $image.data('image'),
+                id: $image.data('id'),
+                field: $image.parent().data('field-name'),
+                _token: 'pav4ljSvpH7gdz7o9KJIOS6Yq5IZgwOImDiGMg68'
+            }
+
+            $('.confirm_delete_name').text($image.data('image'));
+            $('#confirm_delete_modal').modal('show');
+        });
+
+        $('[data-toggle="tooltip"]').tooltip();
+    });
+</script>
+{% endblock %}

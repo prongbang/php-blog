@@ -1,0 +1,96 @@
+{% extends "base.html" %} {% block title %}Blog{% endblock %} {% block head %} {{ parent() }}
+<style type="text/css"></style>
+{% endblock %} {% block content %}
+
+<!-- content -->
+<div>
+    {{ parent() }}
+    <div class="container-fluid">
+        <div class="side-body padding-top">
+            <h1 class="page-title">
+                <i class="voyager-categories"></i> Viewing Category &nbsp;
+
+                <a href="{{hostname}}/manage/categories/{{category.id}}/edit" class="btn btn-info">
+                    <span class="glyphicon glyphicon-pencil"></span>&nbsp;
+                    Edit
+                </a>
+                <a href="{{hostname}}/manage/categories" class="btn btn-warning">
+                    <span class="glyphicon glyphicon-list"></span>&nbsp;
+                    Return to List
+                </a>        
+            </h1>
+            <div class="page-content container-fluid">
+                <div class="row">
+                    <div class="col-md-12">
+
+                        <div class="panel panel-bordered" style="padding-bottom:5px;">
+
+                            <!-- /.box-header -->
+                            <!-- form start -->
+                            
+                            <div class="panel-heading" style="border-bottom:0;">
+                                <h3 class="panel-title">parent_id</h3>
+                            </div>
+
+                            <div class="panel-body" style="padding-top:0;">
+                                <p>{{category.parent_id}}</p>
+                            </div><!-- panel-body -->
+                            <hr style="margin:0;">
+                            
+                            <div class="panel-heading" style="border-bottom:0;">
+                                <h3 class="panel-title">order</h3>
+                            </div>
+
+                            <div class="panel-body" style="padding-top:0;">
+                                <p>{{category.order}}</p>
+                            </div><!-- panel-body -->
+                            <hr style="margin:0;">
+                            
+                            <div class="panel-heading" style="border-bottom:0;">
+                                <h3 class="panel-title">name</h3>
+                            </div>
+
+                            <div class="panel-body" style="padding-top:0;">
+                                <p>{{category.name}}</p>
+                            </div><!-- panel-body -->
+                            <hr style="margin:0;">
+                            
+                            <div class="panel-heading" style="border-bottom:0;">
+                                <h3 class="panel-title">slug</h3>
+                            </div>
+
+                            <div class="panel-body" style="padding-top:0;">
+                                <p>{{category.slug}}</p>
+                            </div><!-- panel-body -->
+                            <hr style="margin:0;">
+                            
+                            <div class="panel-heading" style="border-bottom:0;">
+                                <h3 class="panel-title">created_at</h3>
+                            </div>
+
+                            <div class="panel-body" style="padding-top:0;">
+                                <p>{{category.created_at}}</p>
+                            </div><!-- panel-body -->
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- end content -->
+{% endblock %} 
+{% block footer %}
+<div></div>
+{{ parent() }} 
+<script>
+    activeNav('nav-categories');
+    // last index is unactive 
+    appendBreadcrumb([{
+            label: "Categories",
+            link: "{{hostname}}/manage/categories"
+        }
+    ]);
+</script>
+{% endblock %}

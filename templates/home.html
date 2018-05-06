@@ -1,0 +1,127 @@
+{% extends "base.html" %} {% block title %}Blog{% endblock %} {% block head %} {{ parent() }}
+<style type="text/css"></style>
+{% endblock %} {% block content %}
+
+<!-- content -->
+<div>
+    {{ parent() }}
+    <div class="container-fluid">
+        <div class="side-body padding-top">
+            <div class="page-content">
+                <div class="alerts">
+                </div>
+                <div class="clearfix container-fluid row">
+                    <div class="col-xs-12 col-sm-6 col-md-4">
+                        <div class="panel widget center bgimage" style="margin-bottom:0;overflow:hidden;background-image:url(&#39;{{hostname}}/assets/images/widget-backgrounds/02.png&#39;);">
+                            <div class="dimmer"></div>
+                            <div class="panel-content">
+                                <i class="voyager-group"></i>
+                                <h4>{{users_count}} user</h4>
+                                <p>You have 1 user in your database. Click on button below to view all users.</p>
+                                <a href="{{hostname}}/manage/users" class="btn btn-primary">View all users</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-sm-6 col-md-4">
+                        <div class="panel widget center bgimage" style="margin-bottom:0;overflow:hidden;background-image:url(&#39;{{hostname}}/assets/images/widget-backgrounds/03.png&#39;);">
+                            <div class="dimmer"></div>
+                            <div class="panel-content">
+                                <i class="voyager-group"></i>
+                                <h4>{{posts_count}} posts</h4>
+                                <p>You have 0 posts in your database. Click on button below to view all posts.</p>
+                                <a href="{{hostname}}/manage/posts" class="btn btn-primary">View all posts</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-sm-6 col-md-4">
+                        <div class="panel widget center bgimage" style="margin-bottom:0;overflow:hidden;background-image:url(&#39;{{hostname}}/assets/images/widget-backgrounds/03.png&#39;);">
+                            <div class="dimmer"></div>
+                            <div class="panel-content">
+                                <i class="voyager-group"></i>
+                                <h4>{{pages_count}} pages</h4>
+                                <p>You have 0 pages in your database. Click on button below to view all pages.</p>
+                                <a href="{{hostname}}/manage/pages" class="btn btn-primary">View all pages</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div style="padding:15px;">
+                    <p style="border-radius:4px; padding:20px; background:#fff; margin:0; color:#999; text-align:center;">
+                        To view analytics you'll need to get a google analytics client id and add it to your settings for the key <code>google_analytics_client_id</code>.
+                        Get your key in your Google developer console:
+                        <a href="https://console.developers.google.com/" target="_blank">https://console.developers.google.com</a>
+                    </p>
+
+                    <div class="Dashboard Dashboard--full" id="analytics-dashboard">
+                        <header class="Dashboard-header">
+                            <ul class="FlexGrid">
+                                <li class="FlexGrid-item">
+                                    <div class="Titles">
+                                        <h1 class="Titles-main" id="view-name">Select a View</h1>
+                                        <div class="Titles-sub">Various visualizations</div>
+                                    </div>
+                                </li>
+                                <li class="FlexGrid-item FlexGrid-item--fixed">
+                                    <div id="active-users-container"></div>
+                                </li>
+                            </ul>
+                            <div id="view-selector-container"></div>
+                        </header>
+
+                        <ul class="FlexGrid FlexGrid--halves">
+                            <li class="FlexGrid-item">
+                                <div class="Chartjs">
+                                    <header class="Titles">
+                                        <h1 class="Titles-main">This Week vs Last Week</h1>
+                                        <div class="Titles-sub">By users</div>
+                                    </header>
+                                    <figure class="Chartjs-figure" id="chart-1-container"></figure>
+                                    <ol class="Chartjs-legend" id="legend-1-container"></ol>
+                                </div>
+                            </li>
+                            <li class="FlexGrid-item">
+                                <div class="Chartjs">
+                                    <header class="Titles">
+                                        <h1 class="Titles-main">This Year vs Last Year</h1>
+                                        <div class="Titles-sub">By users</div>
+                                    </header>
+                                    <figure class="Chartjs-figure" id="chart-2-container"></figure>
+                                    <ol class="Chartjs-legend" id="legend-2-container"></ol>
+                                </div>
+                            </li>
+                            <li class="FlexGrid-item">
+                                <div class="Chartjs">
+                                    <header class="Titles">
+                                        <h1 class="Titles-main">Top Browsers</h1>
+                                        <div class="Titles-sub">By pageview</div>
+                                    </header>
+                                    <figure class="Chartjs-figure" id="chart-3-container"></figure>
+                                    <ol class="Chartjs-legend" id="legend-3-container"></ol>
+                                </div>
+                            </li>
+                            <li class="FlexGrid-item">
+                                <div class="Chartjs">
+                                    <header class="Titles">
+                                        <h1 class="Titles-main">Top Countries</h1>
+                                        <div class="Titles-sub">By sessions</div>
+                                    </header>
+                                    <figure class="Chartjs-figure" id="chart-4-container"></figure>
+                                    <ol class="Chartjs-legend" id="legend-4-container"></ol>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- end content -->
+{% endblock %} 
+{% block footer %}
+<div></div>
+{{ parent() }} 
+<script>
+    activeNav('nav-dashboard');
+</script>
+{% endblock %}

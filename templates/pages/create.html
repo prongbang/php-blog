@@ -1,0 +1,164 @@
+{% extends "base.html" %} {% block title %}Blog{% endblock %} {% block head %} {{ parent() }}
+<style type="text/css"></style>
+{% endblock %} {% block content %}
+
+<!-- content -->
+<div>
+    {{ parent() }}
+    <div class="container-fluid">
+        <div class="side-body padding-top">
+            <h1 class="page-title">
+                <i class="voyager-file-text"></i> New Page
+            </h1>
+            <div class="page-content container-fluid">
+                <div class="row">
+                    <div class="col-md-12">
+
+                        <div class="panel panel-bordered">
+
+                            <div class="panel-heading">
+                                <h3 class="panel-title">Add New Page</h3>
+                            </div>
+                            <!-- /.box-header -->
+                            <!-- form start -->
+                            <form role="form" class="form-edit-add" action="{{hostname}}/manage/pages" method="POST" enctype="multipart/form-data">
+                                <!-- PUT Method if we are editing -->
+                                
+                                <!-- CSRF TOKEN -->
+                                <input type="hidden" name="_token" value="weKMUko2xmMijqy0Ly6yGEgDga8iqkyDkMWkcGju">
+
+                                <div class="panel-body">
+
+                                    
+                                    <!-- If we are editing -->
+                                    
+                                    <div class="form-group ">
+                                        <label for="name">title</label>
+                                        <input type="text" class="form-control" name="title" placeholder="title" value="">
+
+
+                                    </div>
+                                    <div class="form-group ">
+                                        <label for="name">excerpt</label>
+                                        <textarea class="form-control" name="excerpt"></textarea>
+
+                                    </div>
+                                    <div class="form-group ">
+                                        <label for="name">body</label>
+                                        <textarea class="form-control richTextBox" name="body" id="richtextbody"></textarea>
+                                    </div>
+                                <div class="form-group ">
+                                    <label for="name">slug</label>
+                                    <input type="text" class="form-control" name="slug" placeholder="slug" data-slug-origin="title" value="">
+                                </div>
+                                <div class="form-group ">
+                                    <label for="name">meta_description</label>
+                                    <input type="text" class="form-control" name="meta_description" placeholder="meta_description" value="">
+
+
+                                </div>
+                                <div class="form-group ">
+                                    <label for="name">meta_keywords</label>
+                                    <input type="text" class="form-control" name="meta_keywords" placeholder="meta_keywords" value="">
+
+
+                                </div>
+                                <div class="form-group ">
+                                    <label for="name">status</label>
+                                    <select class="form-control select2 select2-hidden-accessible" name="status" tabindex="-1" aria-hidden="true">
+                                        <option value="INACTIVE" selected="&quot;selected&quot;">INACTIVE</option>
+                                        <option value="ACTIVE">ACTIVE</option>
+                                    </select>
+
+
+                                </div>
+                                <div class="form-group ">
+                                    <label for="name">image</label>
+                                    <input type="file" name="image">
+
+                                </div>
+                                
+                            </div><!-- panel-body -->
+
+                            <div class="panel-footer">
+                                <button type="submit" class="btn btn-primary save">Save</button>
+                            </div>
+                        </form>
+
+                        <iframe id="form_target" name="form_target" style="display:none"></iframe>
+                        <form id="my_form" action="{{hostname}}/manage/pages/upload" target="form_target" method="post" enctype="multipart/form-data" style="width:0;height:0;overflow:hidden">
+                            <input name="image" id="upload_file" type="file" onchange="$('#my_form').submit();this.value='';">
+                            <input type="hidden" name="type_slug" id="type_slug" value="pages">
+                            <input type="hidden" name="_token" value="weKMUko2xmMijqy0Ly6yGEgDga8iqkyDkMWkcGju">
+                        </form>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- end content -->
+{% endblock %} 
+{% block footer %}
+<div></div>
+{{ parent() }} 
+
+<!--<script src="{{hostname}}/assets/lib/js/tinymce/tinymce.min.js"></script>-->
+<script src="{{hostname}}/assets/lib/js/tinymce/tinymce.min.new.js"></script>
+<script src="{{hostname}}/assets/js/voyager_tinymce.js"></script>
+<script src="{{hostname}}/assets/lib/js/ace/ace.js"></script>
+<script src="{{hostname}}/assets/js/voyager_ace_editor.js"></script>
+<script src="{{hostname}}/assets/js/slugify.js"></script>
+
+<script>
+    activeNav('nav-pages');
+    // last index is unactive 
+    appendBreadcrumb([{
+            label: "Pages",
+            link: "{{hostname}}/manage/pages"
+        },
+        {
+            label: "Create",
+            link: ""
+        }
+    ]);    
+
+    var params = {}
+    var $image
+
+    $('document').ready(function () {
+        $('.toggleswitch').bootstrapToggle();
+        
+        //Init datepicker for date fields if data-datepicker attribute defined
+        //or if browser does not handle date inputs
+        $('.form-group input[type=date]').each(function (idx, elt) {
+            if (elt.type != 'date' || elt.hasAttribute('data-datepicker')) {
+                elt.type = 'text';
+                $(elt).datetimepicker($(elt).data('datepicker'));
+            }
+        });
+
+        
+        $('.side-body input[data-slug-origin]').each(function(i, el) {
+            $(el).slugify();
+        });
+
+        $('.form-group').on('click', '.remove-multi-image', function (e) {
+            $image = $(this).siblings('img');
+
+            params = {
+                slug:   'pages',
+                image:  $image.data('image'),
+                id:     $image.data('id'),
+                field:  $image.parent().data('field-name'),
+                _token: 'weKMUko2xmMijqy0Ly6yGEgDga8iqkyDkMWkcGju'
+            }
+
+            $('.confirm_delete_name').text($image.data('image'));
+            $('#confirm_delete_modal').modal('show');
+        });
+        $('[data-toggle="tooltip"]').tooltip();
+    });
+</script>
+{% endblock %}

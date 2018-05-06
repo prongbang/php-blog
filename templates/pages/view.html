@@ -1,0 +1,138 @@
+{% extends "base.html" %} {% block title %}Blog{% endblock %} {% block head %} {{ parent() }}
+<style type="text/css"></style>
+{% endblock %} {% block content %}
+
+<!-- content -->
+<div>
+    {{ parent() }}
+    <div class="container-fluid">
+        <div class="side-body padding-top">
+            <h1 class="page-title">
+                <i class="voyager-file-text"></i> Viewing Page &nbsp;
+
+                <a href="{{hostname}}/manage/pages/{{page.id}}/edit" class="btn btn-info">
+                    <span class="glyphicon glyphicon-pencil"></span>&nbsp;
+                    Edit
+                </a>
+                <a href="{{hostname}}/manage/pages" class="btn btn-warning">
+                    <span class="glyphicon glyphicon-list"></span>&nbsp;
+                    Return to List
+                </a>        
+            </h1>
+            <div class="page-content container-fluid">
+                <div class="row">
+                    <div class="col-md-12">
+
+                        <div class="panel panel-bordered" style="padding-bottom:5px;">
+
+                            <!-- /.box-header -->
+                            <!-- form start -->
+
+                            
+                            <div class="panel-heading" style="border-bottom:0;">
+                                <h3 class="panel-title">title</h3>
+                            </div>
+
+                            <div class="panel-body" style="padding-top:0;">
+                                <p>{{page.title}}</p>
+                            </div><!-- panel-body -->
+                            <hr style="margin:0;">
+                            
+                            <div class="panel-heading" style="border-bottom:0;">
+                                <h3 class="panel-title">excerpt</h3>
+                            </div>
+
+                            <div class="panel-body" style="padding-top:0;">
+                                <p>{{page.excerpt}}</p>
+                            </div><!-- panel-body -->
+                            <hr style="margin:0;">
+                            
+                            <div class="panel-heading" style="border-bottom:0;">
+                                <h3 class="panel-title">body</h3>
+                            </div>
+
+                            <div class="panel-body" style="padding-top:0;">
+                                <p>
+                                    {{page.body | raw}}
+                                </p>
+                            </div><!-- panel-body -->
+                            <hr style="margin:0;">
+                            
+                            <div class="panel-heading" style="border-bottom:0;">
+                                <h3 class="panel-title">slug</h3>
+                            </div>
+
+                            <div class="panel-body" style="padding-top:0;">
+                                <p>{{page.slug}}</p>
+                            </div><!-- panel-body -->
+                            <hr style="margin:0;">
+                            
+                            <div class="panel-heading" style="border-bottom:0;">
+                                <h3 class="panel-title">meta_description</h3>
+                            </div>
+
+                            <div class="panel-body" style="padding-top:0;">
+                                <p>{{page.meta_description}}</p>
+                            </div><!-- panel-body -->
+                            <hr style="margin:0;">
+                            
+                            <div class="panel-heading" style="border-bottom:0;">
+                                <h3 class="panel-title">meta_keywords</h3>
+                            </div>
+
+                            <div class="panel-body" style="padding-top:0;">
+                                <p>{{page.meta_keywords}}</p>
+                            </div><!-- panel-body -->
+                            <hr style="margin:0;">
+                            
+                            <div class="panel-heading" style="border-bottom:0;">
+                                <h3 class="panel-title">status</h3>
+                            </div>
+
+                            <div class="panel-body" style="padding-top:0;">
+                                
+                                {{page.status}}                                                    
+                            </div><!-- panel-body -->
+                                <hr style="margin:0;">
+                                
+                                <div class="panel-heading" style="border-bottom:0;">
+                                    <h3 class="panel-title">created_at</h3>
+                                </div>
+
+                                <div class="panel-body" style="padding-top:0;">
+                                    <p>{{page.created_at}}</p>
+                                </div><!-- panel-body -->
+                                <hr style="margin:0;">
+                                
+                                <div class="panel-heading" style="border-bottom:0;">
+                                    <h3 class="panel-title">image</h3>
+                                </div>
+
+                                <div class="panel-body" style="padding-top:0;">
+                                    <img class="img-responsive" src="{{hostname}}/{{page.image}}">
+                                </div><!-- panel-body -->
+                                
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- end content -->
+{% endblock %} 
+{% block footer %}
+<div></div>
+{{ parent() }} 
+
+<script>
+    activeNav('nav-pages');
+    // last index is unactive 
+    appendBreadcrumb([{
+            label: "Pages",
+            link: "{{hostname}}/manage/pages"
+        }
+    ]);    
+</script>
+{% endblock %}

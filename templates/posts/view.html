@@ -1,0 +1,171 @@
+{% extends "base.html" %} {% block title %}Blog{% endblock %} {% block head %} {{ parent() }}
+<style type="text/css"></style>
+{% endblock %} {% block content %}
+
+<!-- content -->
+<div>
+    {{ parent() }}
+    <div class="container-fluid">
+        <div class="side-body padding-top">
+            <h1 class="page-title">
+                <i class="voyager-news"></i> Viewing Post &nbsp;
+
+                <a href="{{hostname}}/manage/posts/{{post.id}}/edit" class="btn btn-info">
+                    <span class="glyphicon glyphicon-pencil"></span>&nbsp;
+                    Edit
+                </a>
+                <a href="{{hostname}}/manage/posts" class="btn btn-warning">
+                    <span class="glyphicon glyphicon-list"></span>&nbsp;
+                    Return to List
+                </a>        
+            </h1>
+            <div class="page-content container-fluid">
+                <div class="row">
+                    <div class="col-md-12">
+
+                        <div class="panel panel-bordered" style="padding-bottom:5px;">
+
+                            <!-- /.box-header -->
+                            <!-- form start -->
+
+                            <div class="panel-heading" style="border-bottom:0;">
+                                <h3 class="panel-title">Author</h3>
+                            </div>
+
+                            <div class="panel-body" style="padding-top:0;">
+                                <p>{{post.author_id}}</p>
+                            </div><!-- panel-body -->
+                            <hr style="margin:0;">
+                            
+                            <div class="panel-heading" style="border-bottom:0;">
+                                <h3 class="panel-title">Category</h3>
+                            </div>
+
+                            <div class="panel-body" style="padding-top:0;">
+                                <p>{{post.category_id}}</p>
+                            </div><!-- panel-body -->
+                            <hr style="margin:0;">
+                            
+                            <div class="panel-heading" style="border-bottom:0;">
+                                <h3 class="panel-title">Title</h3>
+                            </div>
+
+                            <div class="panel-body" style="padding-top:0;">
+                                <p>{{post.title}}</p>
+                            </div><!-- panel-body -->
+                            <hr style="margin:0;">
+                            
+                            <div class="panel-heading" style="border-bottom:0;">
+                                <h3 class="panel-title">excerpt</h3>
+                            </div>
+
+                            <div class="panel-body" style="padding-top:0;">
+                                <p>{{post.excerpt}}</p>
+                            </div><!-- panel-body -->
+                            <hr style="margin:0;">
+                            
+                            <div class="panel-heading" style="border-bottom:0;">
+                                <h3 class="panel-title">Body</h3>
+                            </div>
+
+                            <div class="panel-body" style="padding-top:0;">
+                                <p>{{post.body | raw }}</p>
+                                </div><!-- panel-body -->
+                                <hr style="margin:0;">
+                                
+                                <div class="panel-heading" style="border-bottom:0;">
+                                    <h3 class="panel-title">Post Image</h3>
+                                </div>
+
+                                <div class="panel-body" style="padding-top:0;">
+                                    <img class="img-responsive" src="{{hostname}}/{{post.image}}">
+                                </div><!-- panel-body -->
+                                <hr style="margin:0;">
+                                
+                                <div class="panel-heading" style="border-bottom:0;">
+                                    <h3 class="panel-title">slug</h3>
+                                </div>
+
+                                <div class="panel-body" style="padding-top:0;">
+                                    <p>{{post.slug}}</p>
+                                </div><!-- panel-body -->
+                                <hr style="margin:0;">
+                                
+                                <div class="panel-heading" style="border-bottom:0;">
+                                    <h3 class="panel-title">meta_description</h3>
+                                </div>
+
+                                <div class="panel-body" style="padding-top:0;">
+                                    <p>{{post.meta_description}}</p>
+                                </div><!-- panel-body -->
+                                <hr style="margin:0;">
+                                
+                                <div class="panel-heading" style="border-bottom:0;">
+                                    <h3 class="panel-title">meta_keywords</h3>
+                                </div>
+
+                                <div class="panel-body" style="padding-top:0;">
+                                    <p>{{post.meta_keywords}}</p>
+                                </div><!-- panel-body -->
+                                <hr style="margin:0;">
+                                
+                                <div class="panel-heading" style="border-bottom:0;">
+                                    <h3 class="panel-title">status</h3>
+                                </div>
+
+                                <div class="panel-body" style="padding-top:0;">
+                                    
+                                    {{post.status}}                                                    
+                                </div><!-- panel-body -->
+                                    <hr style="margin:0;">
+                                    
+                                    <div class="panel-heading" style="border-bottom:0;">
+                                        <h3 class="panel-title">created_at</h3>
+                                    </div>
+
+                                    <div class="panel-body" style="padding-top:0;">
+                                        <p>{{post.created_at}}</p>
+                                    </div><!-- panel-body -->
+                                    <hr style="margin:0;">
+                                    
+                                    <div class="panel-heading" style="border-bottom:0;">
+                                        <h3 class="panel-title">seo_title</h3>
+                                    </div>
+
+                                    <div class="panel-body" style="padding-top:0;">
+                                        <p>{{post.seo_title}}</p>
+                                    </div><!-- panel-body -->
+                                    <hr style="margin:0;">
+                                    
+                                    <div class="panel-heading" style="border-bottom:0;">
+                                        <h3 class="panel-title">featured</h3>
+                                    </div>
+
+                                    <div class="panel-body" style="padding-top:0;">
+                                        {{post.featured}}
+                                    </div><!-- panel-body -->
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- end content -->
+{% endblock %} 
+{% block footer %}
+<div></div>
+{{ parent() }} 
+<script>
+    activeNav('nav-posts');
+    // last index is unactive 
+    appendBreadcrumb([{
+            label: "Posts",
+            link: "{{hostname}}/manage/posts"
+        }
+    ]);    
+</script>
+{% endblock %}

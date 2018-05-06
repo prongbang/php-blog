@@ -1,0 +1,232 @@
+{% extends "base.html" %} {% block title %}Blog{% endblock %} {% block head %} {{ parent() }}
+<style type="text/css"></style>
+<style>
+    .panel .mce-panel {
+        border-left-color: #fff;
+        border-right-color: #fff;
+    }
+
+    .panel .mce-toolbar,
+    .panel .mce-statusbar {
+        padding-left: 20px;
+    }
+
+    .panel .mce-edit-area,
+    .panel .mce-edit-area iframe,
+    .panel .mce-edit-area iframe html {
+        padding: 0 10px;
+        min-height: 350px;
+    }
+
+    .mce-content-body {
+        color: #555;
+        font-size: 14px;
+    }
+
+    .panel.is-fullscreen .mce-statusbar {
+        position: absolute;
+        bottom: 0;
+        width: 100%;
+        z-index: 200000;
+    }
+
+    .panel.is-fullscreen .mce-tinymce {
+        height: 100%;
+    }
+
+    .panel.is-fullscreen .mce-edit-area,
+    .panel.is-fullscreen .mce-edit-area iframe,
+    .panel.is-fullscreen .mce-edit-area iframe html {
+        height: 100%;
+        position: absolute;
+        width: 99%;
+        overflow-y: scroll;
+        overflow-x: hidden;
+        min-height: 100%;
+    }
+</style>
+
+
+<link rel="stylesheet" type="text/css" id="u0" href="{{hostname}}/assets/lib/js/tinymce/skins/voyager/skin.min.css">
+
+{% endblock %} 
+{% block content %}
+
+<!-- content -->
+<div>
+    {{ parent() }}
+
+    <!-- Main Content -->
+    <div class="container-fluid">
+        <div class="side-body padding-top">
+            <h1 class="page-title">
+                <i class="voyager-news"></i> New Post
+            </h1>
+            <div class="page-content container-fluid">
+                <form class="form-edit-add" action="{{hostname}}/manage/posts" method="POST" enctype="multipart/form-data">
+                    <div class="row">
+                        <div class="col-md-8">
+                            <!-- ### TITLE ### -->
+                            <div class="panel">
+
+                                <div class="panel-heading">
+                                    <h3 class="panel-title">
+                                        <i class="voyager-character"></i> Post Title
+                                        <span class="panel-desc"> The title for your post</span>
+                                    </h3>
+                                    <div class="panel-actions">
+                                        <a class="panel-action voyager-angle-down" data-toggle="panel-collapse" aria-hidden="true"></a>
+                                    </div>
+                                </div>
+                                <div class="panel-body">
+                                    <input type="text" class="form-control" id="title" name="title" placeholder="Title" value="" required>
+                                </div>
+                            </div>
+
+                            <!-- ### CONTENT ### -->
+                            <div class="panel">
+                                <div class="panel-heading">
+                                    <h3 class="panel-title"><i class="icon wb-book"></i> Post Content</h3>
+                                    <div class="panel-actions">
+                                        <a class="panel-action voyager-resize-full" data-toggle="panel-fullscreen" aria-hidden="true"></a>
+                                    </div>
+                                </div>
+                                <textarea class="form-control richTextBox" id="richtextbody" name="body" style="border:0px;"></textarea>
+                            </div>
+                            <!-- .panel -->
+
+                            <!-- ### EXCERPT ### -->
+                            <div class="panel">
+                                <div class="panel-heading">
+                                    <h3 class="panel-title">Excerpt <small>Small description of this post</small></h3>
+                                    <div class="panel-actions">
+                                        <a class="panel-action voyager-angle-down" data-toggle="panel-collapse" aria-hidden="true"></a>
+                                    </div>
+                                </div>
+                                <div class="panel-body">
+                                    <textarea class="form-control" name="excerpt"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <!-- ### DETAILS ### -->
+                            <div class="panel panel panel-bordered panel-warning">
+                                <div class="panel-heading">
+                                    <h3 class="panel-title"><i class="icon wb-clipboard"></i> Post Details</h3>
+                                    <div class="panel-actions">
+                                        <a class="panel-action voyager-angle-down" data-toggle="panel-collapse" aria-hidden="true"></a>
+                                    </div>
+                                </div>
+                                <div class="panel-body">
+                                    <div class="form-group">
+                                        <label for="name">URL slug</label>
+                                        <input type="text" class="form-control" id="slug" name="slug" placeholder="slug" {="" data-slug-origin="title" data-slug-forceupdate="true}" value="">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="name">Post Status</label>
+                                        <select class="form-control" name="status" required>
+                                            <option value="DRAFT">draft</option>
+                                            <option value="PENDING">pending</option>
+                                            <option value="PUBLISHED">published</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="name">Post Category</label>
+                                        <select class="form-control" name="category_id" required>
+                                            {% for c in categories %}
+                                            <option value="{{c.id}}">{{c.name}}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="name">Featured</label>
+                                        <input type="checkbox" name="featured" value="1">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- ### IMAGE ### -->
+                            <div class="panel panel-bordered panel-primary">
+                                <div class="panel-heading">
+                                    <h3 class="panel-title"><i class="icon wb-image"></i> Post Image</h3>
+                                    <div class="panel-actions">
+                                        <a class="panel-action voyager-angle-down" data-toggle="panel-collapse" aria-hidden="true"></a>
+                                    </div>
+                                </div>
+                                <div class="panel-body">
+                                    <input type="file" name="image">
+                                </div>
+                            </div>
+
+                            <!-- ### SEO CONTENT ### -->
+                            <div class="panel panel-bordered panel-info">
+                                <div class="panel-heading">
+                                    <h3 class="panel-title"><i class="icon wb-search"></i> SEO Content</h3>
+                                    <div class="panel-actions">
+                                        <a class="panel-action voyager-angle-down" data-toggle="panel-collapse" aria-hidden="true"></a>
+                                    </div>
+                                </div>
+                                <div class="panel-body">
+                                    <div class="form-group">
+                                        <label for="name">Meta Description</label>
+                                        <textarea class="form-control" name="meta_description" required></textarea>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="name">Meta Keywords</label>
+                                        <textarea class="form-control" name="meta_keywords" required></textarea>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="name">SEO Title</label>
+                                        <input type="text" class="form-control" name="seo_title" placeholder="SEO Title" value="" required>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- PUT Method if we are editing -->
+                    <input type="hidden" name="_method" value="POST">
+                    {{csrf_field()|raw}}
+                    <button type="submit" class="btn btn-primary pull-right"><i class="icon wb-plus-circle"></i> Create New Post</button>
+                </form>
+
+                <iframe id="form_target" name="form_target" style="display:none"></iframe>
+                <form id="my_form" action="{{hostname}}/manage/posts/upload" target="form_target" method="post" enctype="multipart/form-data" style="width:0px;height:0;overflow:hidden">
+                    {{csrf_field()|raw}}
+                    <input name="image" id="upload_file" type="file" onchange="$('#my_form').submit();this.value='';">
+                    <input type="hidden" name="type_slug" id="type_slug" value="posts">
+                </form>
+            </div>
+        </div>
+    </div>
+    <div id="mceu_30" class="mce-widget mce-tooltip mce-tooltip-n" role="presentation" style="left: 508px; top: 425px; z-index: 131070; display: none;">
+        <div class="mce-tooltip-arrow"></div>
+        <div class="mce-tooltip-inner">Increase indent</div>
+    </div>
+</div>
+<!-- end content -->
+{% endblock %} 
+{% block footer %} 
+{{ parent() }}
+<!--<script src="{{hostname}}/assets/lib/js/tinymce/tinymce.min.js"></script>-->
+<script src="{{hostname}}/assets/lib/js/tinymce/tinymce.min.new.js"></script>
+<script src="{{hostname}}/assets/js/voyager_tinymce.js"></script>
+<script src="{{hostname}}/assets/js/slugify.js"></script>
+<script>
+    $('document').ready(function () {
+        $('#slug').slugify();
+    });
+</script>
+<script>
+    activeNav('nav-posts');
+    // last index is unactive 
+    appendBreadcrumb([{
+            label: "Posts",
+            link: "{{hostname}}/manage/posts"
+        },
+        {
+            label: "Create",
+            link: ""
+        }
+    ]);
+</script>
+{% endblock %}

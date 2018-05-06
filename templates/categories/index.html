@@ -1,0 +1,120 @@
+{% extends "base.html" %} {% block title %}Blog{% endblock %} {% block head %} {{ parent() }}
+<style type="text/css"></style>
+{% endblock %} {% block content %}
+
+<!-- content -->
+<div>
+    {{ parent() }}
+    <div class="container-fluid">
+        <div class="side-body padding-top">
+            <h1 class="page-title">
+                <i class="voyager-categories"></i> Categories
+                <a href="{{hostname}}/manage/categories/create" class="btn btn-success">
+                    <i class="voyager-plus"></i> Add New
+                </a>
+            </h1>
+            <div class="page-content container-fluid">
+                <div class="alerts">
+                </div>        <div class="row">
+                <div class="col-md-12">
+                    <div class="panel panel-bordered">
+                        <div class="panel-body table-responsive">
+                            <table id="dataTable" class="row table table-hover dataTable no-footer" role="grid" aria-describedby="dataTable_info">
+                            <thead>
+                                <tr role="row"><th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="order: activate to sort column ascending" style="width: 157px;">order</th><th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="name: activate to sort column ascending" style="width: 167px;">name</th><th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="slug: activate to sort column ascending" style="width: 139px;">slug</th><th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="created_at: activate to sort column ascending" style="width: 200px;">created_at</th><th class="actions sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Actions: activate to sort column ascending" style="width: 638px;">Actions</th></tr>
+                            </thead>
+                            <tbody>
+                                {% for c in categories %}
+                                <tr role="row" class="odd">
+                                    <td>
+                                        <div class="readmore" style="max-height: none;">{{c.order}}</div>
+                                    </td>
+                                    <td>
+                                        <div class="readmore" style="max-height: none;">{{c.name}}</div>
+                                    </td>
+                                    <td>
+                                        <div class="readmore" style="max-height: none;">{{c.slug}}</div>
+                                    </td>
+                                    <td>
+                                        <div class="readmore" style="max-height: none;">{{c.created_at}}</div>
+                                    </td>
+                                    <td class="no-sort no-click" id="bread-actions">
+                                        <a href="javascript:;" title="Delete" class="btn btn-sm btn-danger pull-right delete" data-id="{{c.id}}" id="delete-{{c.id}}">
+                                            <i class="voyager-trash"></i> <span class="hidden-xs hidden-sm">Delete</span>
+                                        </a>
+                                        <a href="{{hostname}}/manage/categories/{{c.id}}/edit" title="Edit" class="btn btn-sm btn-primary pull-right edit">
+                                            <i class="voyager-edit"></i> <span class="hidden-xs hidden-sm">Edit</span>
+                                        </a>
+                                        <a href="{{hostname}}/manage/categories/{{c.id}}" title="View" class="btn btn-sm btn-warning pull-right">
+                                            <i class="voyager-eye"></i> <span class="hidden-xs hidden-sm">View</span>
+                                        </a>
+                                    </td>
+                                </tr>
+                            </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal modal-danger fade" tabindex="-1" id="delete_modal" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                    <h4 class="modal-title"><i class="voyager-trash"></i> Are you sure you want to delete
+                        this category?</h4>
+                    </div>
+                    <div class="modal-footer">
+                        <form action="{{hostname}}/manage/categories/1" id="delete_form" method="POST">
+                            <input type="hidden" name="_method" value="DELETE">
+                            {{csrf_field()|raw}}
+                            <input type="submit" class="btn btn-danger pull-right delete-confirm" value="Yes, delete this category">
+                        </form>
+                        <button type="button" class="btn btn-default pull-right" data-dismiss="modal">Cancel</button>
+                    </div>
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal-dialog -->
+        </div><!-- /.modal -->
+    </div>
+    <!-- DataTables -->
+    <script>
+        $(document).ready(function () {
+            activeNav('nav-categories');
+            // last index is unactive 
+            appendBreadcrumb([{
+                    label: "Categories",
+                    link: ""
+                }
+            ]);
+            var table = $('#dataTable').DataTable({
+                "order": []
+            });
+        });
+
+        var deleteFormAction;
+        $('td').on('click', '.delete', function (e) {
+            var form = $('#delete_form')[0];
+
+                if (!deleteFormAction) { // Save form action initial value
+                    deleteFormAction = form.action;
+                }
+
+                form.action = deleteFormAction.match(/\/[0-9]+$/)
+                ? deleteFormAction.replace(/([0-9]+$)/, $(this).data('id'))
+                : deleteFormAction + '/' + $(this).data('id');
+                console.log(form.action);
+
+                $('#delete_modal').modal('show');
+            });
+    </script>
+</div>
+<!-- end content -->
+{% endblock %} 
+{% block footer %}
+<div></div>
+{{ parent() }} 
+{% endblock %}

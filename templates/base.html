@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    {% block head %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Roboto+Condensed:300,400|Lato:300,400,700,900" rel="stylesheet" type="text/css">
+
+    <!-- CSS Libs -->
+    <link rel="stylesheet" type="text/css" href="{{hotname}}/assets/lib/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="{{hotname}}/assets/lib/css/animate.min.css">
+    <link rel="stylesheet" type="text/css" href="{{hotname}}/assets/lib/css/bootstrap-switch.min.css">
+    <link rel="stylesheet" type="text/css" href="{{hotname}}/assets/lib/css/checkbox3.min.css">
+    <link rel="stylesheet" type="text/css" href="{{hotname}}/assets/lib/css/jquery.dataTables.min.css">
+    <link rel="stylesheet" type="text/css" href="{{hotname}}/assets/lib/css/dataTables.bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="{{hotname}}/assets/lib/css/select2.min.css">
+    <link rel="stylesheet" type="text/css" href="{{hotname}}/assets/lib/css/toastr.min.css">
+    <link rel="stylesheet" type="text/css" href="{{hotname}}/assets/lib/css/perfect-scrollbar.min.css">
+    <link rel="stylesheet" type="text/css" href="{{hotname}}/assets/css/bootstrap-toggle.min.css">
+    <link rel="stylesheet" type="text/css" href="{{hotname}}/assets/js/icheck/icheck.css">
+    <link rel="stylesheet" type="text/css" href="{{hotname}}/assets/js/datetimepicker/bootstrap-datetimepicker.min.css">
+    <!-- CSS App -->
+    <link rel="stylesheet" type="text/css" href="{{hotname}}/assets/css/style.css">
+    <link rel="stylesheet" type="text/css" href="{{hotname}}/assets/css/themes/flat-blue.css">
+
+    <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Roboto:300,400,500,300italic">
+
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="{{hotname}}/assets/images/lorjula-ic.png" type="image/x-icon">
+
+    <!-- CSS Fonts -->
+    <link rel="stylesheet" href="{{hotname}}/assets/fonts/voyager/styles.css">
+    <script type="text/javascript" src="{{hotname}}/assets/lib/js/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.0/themes/smoothness/jquery-ui.css">
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.0/jquery-ui.min.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="{{hotname}}/assets/css/ga-embed.css">
+
+    <!-- Voyager CSS -->
+    <link rel="stylesheet" href="{{hotname}}/assets/css/voyager.css">
+ 
+    <!-- Few Dynamic Styles -->
+    <style type="text/css">
+        .flat-blue .side-menu .navbar-header,
+        .widget .btn-primary,
+        .widget .btn-primary:focus,
+        .widget .btn-primary:hover,
+        .widget .btn-primary:active,
+        .widget .btn-primary.active,
+        .widget .btn-primary:active:focus {
+            background: #22A7F0;
+            border-color: #22A7F0;
+        }
+
+        .breadcrumb a {
+            color: #22A7F0;
+        }
+    </style>
+    <title>{% block title %}{% endblock %} - Lorjular</title>
+    {% endblock %}
+    <!--https://twig.sensiolabs.org/doc/2.x/tags/extends.html-->
+</head>
+
+<body class="flat-blue">
+    <div id="voyager-loader" style="display: none;">
+        <img src="{{hostname}}/assets/images/logo-icon.png" alt="Voyager Loader">
+    </div>
+
+    <div class="app-container" style="">
+        <div class="fadetoblack visible-xs"></div>
+        <div class="row content-container">
+            <nav class="navbar navbar-default navbar-fixed-top navbar-top" style="">
+                <div class="container-fluid">
+                    <div class="navbar-header">
+                        <button class="hamburger btn-link"><span class="hamburger-inner"></span></button>
+                        <a id="sidebar-anchor" class="voyager-anchor btn-link navbar-link hidden-xs" title="Yarr! Drop the anchors! (and keep the sidebar open)"
+                            data-unstick="Unstick the sidebar" data-toggle="tooltip" data-placement="bottom"></a>
+
+                        <ol class="breadcrumb hidden-xs">
+                            <li class="active"><i class="voyager-boat"></i> Dashboard</li>
+                        </ol>
+                    </div>
+                    <ul class="nav navbar-nav navbar-right">
+                        <li class="dropdown profile">
+                            <a href="{{hostname}}/manage#" class="dropdown-toggle text-right" data-toggle="dropdown" role="button" aria-expanded="false"><img src="{{hostname}}/assets/images/default.png" class="profile-img"> <span class="caret"></span></a>
+                            <ul class="dropdown-menu dropdown-menu-animated">
+                                <li class="profile-img">
+                                    <img src="{{hostname}}/assets/images/default.png" class="profile-img">
+                                    <div class="profile-body">
+                                        <h5>{{ session.name }}</h5>
+                                        <h6>{{ session.email }}</h6>
+                                    </div>
+                                </li>
+                                <li class="divider"></li>
+                                <li class="class-full-of-rum">
+                                    <a href="{{hostname}}/manage/profile">
+                                        <i class="voyager-person"></i>
+                                        Profile
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="{{hostname}}/manage" target="_blank">
+                                        <i class="voyager-home"></i>
+                                        Home
+                                    </a>
+                                </li>
+                                <li>
+                                    <form action="{{hostname}}/manage/logout" method="POST"> 
+                                        <button type="submit" class="btn btn-danger btn-block">
+                                                                <i class="voyager-power"></i>
+                                                                Logout
+                            </button>
+                                    </form>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+            <div class="side-menu sidebar-inverse ps-container ps-theme-default" style="" data-ps-id="d2293e43-d3bd-2af0-052e-7779ed2672f2">
+                <nav class="navbar navbar-default" role="navigation">
+                    <div class="side-menu-container">
+                        <div class="navbar-header">
+                            <a class="navbar-brand" href="{{hostname}}/manage">
+                                <div class="logo-icon-container">
+                                    <img src="{{hostname}}/assets/images/logo-icon-light.png" alt="Logo Icon">
+                                </div>
+                                <div class="title">VOYAGER</div>
+                            </a>
+                        </div>
+                        <!-- .navbar-header -->
+
+                        <div class="panel widget center bgimage" style="background-image:url({{hostname}}/assets/images/bg.jpg);">
+                            <div class="dimmer"></div>
+                            <div class="panel-content">
+                                <img src="{{hostname}}/assets/images/default.png" class="avatar" alt="{{ session.name }} avatar">
+                                <h4>{{ session.name }}</h4>
+                                <p>{{ session.email }}</p>
+
+                                <a href="{{hostname}}/manage/profile" class="btn btn-primary">Profile</a>
+                                <div style="clear:both"></div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <ul class="nav navbar-nav">
+
+                        <li id="nav-dashboard" class="">
+                            <a href="{{hostname}}/manage" target="_self">
+                                <span class="icon voyager-boat"></span>
+                                <span class="title">Dashboard</span>
+                            </a>
+                        </li>
+                        
+                        <li id="nav-roles" class="">
+                            <a href="{{hostname}}/manage/roles" target="_self">
+                                <span class="icon voyager-lock"></span>
+                                <span class="title">Roles</span>
+                            </a>
+                        </li>
+
+                        <li id="nav-users" class="">
+                            <a href="{{hostname}}/manage/users" target="_self">
+                                <span class="icon voyager-person"></span>
+                                <span class="title">Users</span>
+                            </a>
+                        </li>
+
+                        <li id="nav-media" class="">
+                            <a href="{{hostname}}/manage/media" target="_self">
+                                <span class="icon voyager-images"></span>
+                                <span class="title">Media</span>
+                            </a>
+                        </li>
+
+                        <li id="nav-posts" class="">
+                            <a href="{{hostname}}/manage/posts" target="_self">
+                                <span class="icon voyager-news"></span>
+                                <span class="title">Posts</span>
+                            </a>
+                        </li>
+
+                        <li id="nav-pages" class="">
+                            <a href="{{hostname}}/manage/pages" target="_self">
+                                <span class="icon voyager-file-text"></span>
+                                <span class="title">Pages</span>
+                            </a>
+                        </li>
+
+                        <li id="nav-categories" class="">
+                            <a href="{{hostname}}/manage/categories" target="_self">
+                                <span class="icon voyager-categories"></span>
+                                <span class="title">Categories</span>
+                            </a>
+                        </li>
+
+                        <li id="nav-tools" class="dropdown">
+                            <a href="{{hostname}}/manage#tools-dropdown-element" data-toggle="collapse" aria-expanded="false" target="_self">
+                                <span class="icon voyager-tools"></span>
+                                <span class="title">Tools</span>
+                            </a>
+                            <div id="tools-dropdown-element" class="panel-collapse collapse ">
+                                <div class="panel-body">
+                                    <ul class="nav navbar-nav">
+                                        <li id="nav-menus" class="">
+                                            <a href="{{hostname}}/manage/menus" target="_self">
+                                                <span class="icon voyager-list"></span>
+                                                <span class="title">Menu Builder</span>
+                                            </a>
+                                        </li>
+                                        <li id="nav-database" class="">
+                                            <a href="{{hostname}}/manage/database" target="_self">
+                                                <span class="icon voyager-data"></span>
+                                                <span class="title">Database</span>
+                                            </a>
+                                        </li>
+
+                                    </ul>
+                                </div>
+                            </div>
+                        </li>
+
+                        <li id="nav-settings" class="">
+                            <a href="{{hostname}}/manage/settings" target="_self">
+                                <span class="icon voyager-settings"></span>
+                                <span class="title">Settings</span>
+                            </a>
+                        </li>
+
+                    </ul>
+
+                </nav>
+                <div class="ps-scrollbar-x-rail" style="width: 60px; left: 0px; bottom: 0px;">
+                    <div class="ps-scrollbar-x" tabindex="0" style="left: 0px; width: 14px;"></div>
+                </div>
+                <div class="ps-scrollbar-y-rail" style="top: 0px; right: 0px;">
+                    <div class="ps-scrollbar-y" tabindex="0" style="top: 0px; height: 0px;"></div>
+                </div>
+            </div>
+            <div>
+                {% block content %}
+                    <!-- Main Content -->
+                {% endblock %}
+            </div>
+        </div>
+    </div>
+    <footer class="app-footer">
+        {% block footer %}
+        <div class="site-footer-right">
+            Made with <i class="voyager-heart"></i> by <a href="http://thecontrolgroup.com/" target="_blank">The Control Group</a>            - v0.11.14
+        </div>
+        <script>
+            (function () {
+                var appContainer = document.querySelector('.app-container'),
+                    sidebar = appContainer.querySelector('.side-menu'),
+                    navbar = appContainer.querySelector('nav.navbar.navbar-top'),
+                    loader = document.getElementById('voyager-loader'),
+                    anchor = document.getElementById('sidebar-anchor'),
+                    hamburgerMenu = document.querySelector('.hamburger'),
+                    sidebarTransition = sidebar.style.transition,
+                    navbarTransition = navbar.style.transition,
+                    containerTransition = appContainer.style.transition;
+
+                sidebar.style.WebkitTransition = sidebar.style.MozTransition = sidebar.style.transition =
+                    appContainer.style.WebkitTransition = appContainer.style.MozTransition = appContainer.style.transition =
+                    navbar.style.WebkitTransition = navbar.style.MozTransition = navbar.style.transition = 'none';
+
+                if (window.localStorage && window.localStorage['voyager.stickySidebar'] == 'true') {
+                    appContainer.className += ' expanded';
+                    loader.style.left = (sidebar.clientWidth / 2) + 'px';
+                    anchor.className += ' active';
+                    anchor.dataset.sticky = anchor.title;
+                    anchor.title = anchor.dataset.unstick;
+                    hamburgerMenu.className += ' is-active';
+                }
+
+                navbar.style.WebkitTransition = navbar.style.MozTransition = navbar.style.transition = navbarTransition;
+                sidebar.style.WebkitTransition = sidebar.style.MozTransition = sidebar.style.transition =
+                    sidebarTransition;
+                appContainer.style.WebkitTransition = appContainer.style.MozTransition = appContainer.style.transition =
+                    containerTransition;
+            })();
+        </script>
+        <!-- Javascript Libs -->
+        <script type="text/javascript" src="{{hostname}}/assets/lib/js/bootstrap.min.js"></script>
+        <script type="text/javascript" src="{{hostname}}/assets/lib/js/bootstrap-switch.min.js"></script>
+        <script type="text/javascript" src="{{hostname}}/assets/lib/js/jquery.matchHeight-min.js"></script>
+        <script type="text/javascript" src="{{hostname}}/assets/lib/js/jquery.dataTables.min.js"></script>
+        <script type="text/javascript" src="{{hostname}}/assets/lib/js/dataTables.bootstrap.min.js"></script>
+        <script type="text/javascript" src="{{hostname}}/assets/lib/js/toastr.min.js"></script>
+        <script type="text/javascript" src="{{hostname}}/assets/lib/js/perfect-scrollbar.jquery.min.js"></script>
+        <script type="text/javascript" src="{{hostname}}/assets/js/select2/select2.min.js"></script>
+        <script type="text/javascript" src="{{hostname}}/assets/js/bootstrap-toggle.min.js"></script>
+        <script type="text/javascript" src="{{hostname}}/assets/js/jquery.cookie.js"></script>
+        <script type="text/javascript" src="{{hostname}}/assets/js/moment-with-locales.min.js"></script>
+        <script type="text/javascript" src="{{hostname}}/assets/js/datetimepicker/bootstrap-datetimepicker.min.js"></script>
+        <!-- Javascript -->
+        <script type="text/javascript" src="{{hostname}}/assets/js/readmore.min.js"></script>
+        <script type="text/javascript" src="{{hostname}}/assets/js/val.js"></script>
+        <script type="text/javascript" src="{{hostname}}/assets/js/app.js"></script>
+        <script type="text/javascript" src="{{hostname}}/assets/js/helpers.js"></script>
+        <script async type="text/javascript" >
+            function appendBreadcrumb(breadcrumb) {
+                $('.breadcrumb').empty();
+                $('.breadcrumb').append(createDashboard({
+                    label:"Dashboard",
+                    link: "{{hostname}}/manage"
+                }));
+                for (let i = 0; i < breadcrumb.length; i++) {
+                    $(".breadcrumb").append(createBreadcrumb(breadcrumb[i]));
+                }
+            }
+
+            function createDashboard(breadcrumb) {
+                return `
+                    <li class="active">
+                        <a href="${breadcrumb.link}"><i class="voyager-boat"></i> ${breadcrumb.label}</a>
+                    </li>`;
+            }
+            
+            function createBreadcrumb(breadcrumb) {
+                if (breadcrumb.link != "")
+                    return `<li class="active"><a href="${breadcrumb.link}">${breadcrumb.label}</a></li>`;
+                else 
+                    return `<li>${breadcrumb.label}</li>`;
+            }
+
+            function activeNav(active) {
+                let navTools = 'nav-tools';
+                let navMenu = 'nav-menus';
+                let navDb = 'nav-database';
+                let nav = ['nav-dashboard','nav-roles','nav-users','nav-media','nav-posts','nav-pages','nav-categories', navTools,navMenu,navDb,'nav-settings'];
+                if(active == navMenu) 
+                    activeClass(navTools);
+                activeClass(active);
+            }
+
+            function activeClass(id) {
+                $(`#${id}`).addClass('active');
+            }
+        </script>
+        {% endblock %}
+    </footer>
+</body>
+
+</html>

@@ -1,0 +1,115 @@
+{% extends "base.html" %} {% block title %}Blog{% endblock %} {% block head %} {{ parent() }}
+<style type="text/css"></style>
+{% endblock %} {% block content %}
+
+<!-- content -->
+<div>
+    {{ parent() }}
+    <div class="container-fluid">
+        <div class="side-body padding-top">
+            <h1 class="page-title">
+                <i class="voyager-news"></i> Posts
+                <a href="{{hostname}}/manage/posts/create" class="btn btn-success">
+                    <i class="voyager-plus"></i> Add New
+                </a>
+            </h1>
+            <div class="page-content container-fluid">
+                <div class="alerts">
+                </div>        <div class="row">
+                <div class="col-md-12">
+                    <div class="panel panel-bordered">
+                        <div class="panel-body">
+                            <table id="dataTable" class="table table-hover dataTable no-footer" role="grid" aria-describedby="dataTable_info">
+                            <thead>
+                                <tr role="row"><th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Title: activate to sort column ascending" style="width: 56px;">Title</th><th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Post Image: activate to sort column ascending" style="width: 156px;">Post Image</th><th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="status: activate to sort column ascending" style="width: 114px;">status</th><th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="created_at: activate to sort column ascending" style="width: 197px;">created_at</th><th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="seo_title: activate to sort column ascending" style="width: 95px;">seo_title</th><th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="featured: activate to sort column ascending" style="width: 94px;">featured</th><th class="actions sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Actions: activate to sort column ascending" style="width: 317px;">Actions</th></tr>
+                            </thead>
+                            <tbody>
+                                {% for p in posts %}
+                                <tr role="row" class="odd">
+                                    <td>
+                                        <span>{{p.title}}</span>
+                                    </td>
+                                    <td>
+                                        <img src="{{hostname}}/{{p.image}}" style="width:100px">
+                                    </td>
+                                    <td>
+                                        <span>{{p.status}}</span>
+                                    </td>
+                                    <td>
+                                        <span>{{p.created_at}}</span>
+                                    </td>
+                                    <td>
+                                        <span>{{p.slug}}</span>
+                                    </td>
+                                    <td>
+                                        <span>{{p.featured}}</span>
+                                    </td>
+                                    <td class="no-sort no-click">
+                                        <div class="btn-sm btn-danger pull-right delete" data-id="{{p.id}}">
+                                            <i class="voyager-trash"></i> Delete
+                                        </div>
+                                        <a href="{{hostname}}/manage/posts/{{p.id}}/edit" class="btn-sm btn-primary pull-right edit">
+                                            <i class="voyager-edit"></i> Edit
+                                        </a>
+                                        <a href="{{hostname}}/manage/posts/{{p.id}}" class="btn-sm btn-warning pull-right">
+                                            <i class="voyager-eye"></i> View
+                                        </a>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal modal-danger fade" tabindex="-1" id="delete_modal" role="dialog">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">×</span>
+                        </button>
+                        <h4 class="modal-title">
+                            <i class="voyager-trash"></i> Are you sure you want to delete this Post?
+                        </h4>
+                    </div>
+                    <div class="modal-footer">
+                        <form action="{{hostname}}/manage/posts/__id" id="delete_form" method="POST">
+                            <input type="hidden" name="_method" value="DELETE">
+                            {{csrf_field()|raw}}
+                            <input type="submit" class="btn btn-danger pull-right delete-confirm" value="Yes, Delete This Post">
+                        </form>
+                        <button type="button" class="btn btn-default pull-right" data-dismiss="modal">Cancel</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- end content -->
+{% endblock %} 
+{% block footer %}
+<div></div>
+{{ parent() }} 
+<script>
+    activeNav('nav-posts');
+    // last index is unactive 
+    appendBreadcrumb([{
+            label: "Posts",
+            link: ""
+        }
+    ]);
+
+    $(document).ready(function () {
+        $('#dataTable').DataTable({ "order": [] });
+    });
+
+    $('td').on('click', '.delete', function(e) {
+        $('#delete_form')[0].action = $('#delete_form')[0].action.replace('__id', $(e.target).data('id'));
+        $('#delete_modal').modal('show');
+    });
+</script>
+{% endblock %}

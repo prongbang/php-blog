@@ -1,0 +1,206 @@
+{% extends "base.html" %} {% block title %}Blog{% endblock %} {% block head %} {{ parent() }}
+<style type="text/css"></style>
+{% endblock %} {% block content %}
+
+<!-- content -->
+<div>
+    {{ parent() }}    
+    <div class="container-fluid">
+        <div class="side-body padding-top">
+            <h1 class="page-title">
+                <i class="voyager-file-text"></i> Edit Page
+            </h1>
+            <div class="page-content container-fluid">
+                <div class="row">
+                    <div class="col-md-12">
+
+                        <div class="panel panel-bordered">
+
+                            <div class="panel-heading">
+                                <h3 class="panel-title">Edit Page</h3>
+                            </div>
+                            <!-- /.box-header -->
+                            <!-- form start -->
+                            <form role="form" class="form-edit-add" action="{{hostname}}/manage/pages/1" method="POST" enctype="multipart/form-data">
+                                <!-- PUT Method if we are editing -->
+                                <input type="hidden" name="_method" value="PUT">
+
+                                <!-- CSRF TOKEN -->
+                                <input type="hidden" name="_token" value="weKMUko2xmMijqy0Ly6yGEgDga8iqkyDkMWkcGju">
+
+                                <div class="panel-body">
+
+
+                                    <!-- If we are editing -->
+
+                                    <div class="form-group ">
+                                        <label for="name">title</label>
+                                        <input type="text" class="form-control" name="title" placeholder="title" value="Hello page 1">
+
+
+                                    </div>
+                                    <div class="form-group ">
+                                        <label for="name">excerpt</label>
+                                        <textarea class="form-control" name="excerpt">Page 1</textarea>
+
+                                    </div>
+                                    <div class="form-group ">
+                                        <label for="name">body</label>
+                                        <textarea class="form-control richTextBox" name="body" id="richtextbody" style="display: none;" aria-hidden="true">
+                                    </textarea>
+
+                                </div>
+                                <div class="form-group ">
+                                    <label for="name">slug</label>
+                                    <input type="text" class="form-control" name="slug" placeholder="slug" data-slug-origin="title" value="hello-page-1">
+
+
+                                </div>
+                                <div class="form-group ">
+                                    <label for="name">meta_description</label>
+                                    <input type="text" class="form-control" name="meta_description" placeholder="meta_description" value="Page 1">
+
+
+                                </div>
+                                <div class="form-group ">
+                                    <label for="name">meta_keywords</label>
+                                    <input type="text" class="form-control" name="meta_keywords" placeholder="meta_keywords" value="pg1">
+
+
+                                </div>
+                                <div class="form-group ">
+                                    <label for="name">status</label>
+                                    <select class="form-control select2 select2-hidden-accessible" name="status" tabindex="-1" aria-hidden="true">
+                                        <option value="INACTIVE">INACTIVE</option>
+                                        <option value="ACTIVE" selected="&quot;selected&quot;">ACTIVE</option>
+                                    </select>
+
+
+                                </div>
+                                <div class="form-group ">
+                                    <label for="name">image</label>
+                                    <img src="./Edit Page_files/IR5YymJTjc659UQJypUJ.png" style="width:200px; height:auto; clear:both; display:block; padding:2px; border:1px solid #ddd; margin-bottom:10px;">
+                                    <input type="file" name="image">
+
+                                </div>
+
+                            </div><!-- panel-body -->
+
+                            <div class="panel-footer">
+                                <button type="submit" class="btn btn-primary save">Save</button>
+                            </div>
+                        </form>
+
+                        <iframe id="form_target" name="form_target" style="display:none" src="./Edit Page_files/saved_resource(1).html"></iframe>
+                        <form id="my_form" action="{{hostname}}/manage/pages/upload" target="form_target" method="post" enctype="multipart/form-data" style="width:0;height:0;overflow:hidden">
+                            <input name="image" id="upload_file" type="file" onchange="$('#my_form').submit();this.value='';">
+                            <input type="hidden" name="type_slug" id="type_slug" value="pages">
+                            <input type="hidden" name="_token" value="weKMUko2xmMijqy0Ly6yGEgDga8iqkyDkMWkcGju">
+                        </form>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade modal-danger" id="confirm_delete_modal">
+            <div class="modal-dialog">
+                <div class="modal-content">
+
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                        <h4 class="modal-title"><i class="voyager-warning"></i> Are You Sure</h4>
+                    </div>
+
+                    <div class="modal-body">
+                        <h4>Are you sure you want to delete '<span class="confirm_delete_name"></span>'</h4>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                        <button type="button" class="btn btn-danger" id="confirm_delete">Yes, Delete it!
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- End Delete File Modal -->
+    </div>
+</div>
+<!-- end content -->
+{% endblock %} 
+{% block footer %}
+<div></div>
+{{ parent() }} 
+
+<!--<script src="{{hostname}}/assets/lib/js/tinymce/tinymce.min.js"></script>-->
+<script src="{{hostname}}/assets/lib/js/tinymce/tinymce.min.new.js"></script>
+<script src="{{hostname}}/assets/js/voyager_tinymce.js"></script>
+<script src="{{hostname}}/assets/lib/js/ace/ace.js"></script>
+<script src="{{hostname}}/assets/js/voyager_ace_editor.js"></script>
+<script src="{{hostname}}/assets/js/slugify.js"></script>
+
+<script>
+    activeNav('nav-pages');
+    // last index is unactive 
+    appendBreadcrumb([{
+            label: "Pages",
+            link: "{{hostname}}/manage/pages"
+        },
+        {
+            label: "Edit",
+            link: ""
+        }
+    ]);
+
+    // TODO: change Controllers to use AlertsMessages trait... then remove this
+    var alertType = "success";
+    var alertMessage = "Successfully Added New Page";
+    var alerter = toastr[alertType];
+
+    if (alerter) {
+        alerter(alertMessage);
+    } else {
+        toastr.error("toastr alert-type " + alertType + " is unknown");
+    }
+
+</script>
+<script>
+    var params = {}
+    var $image
+
+    $('document').ready(function () {
+        $('.toggleswitch').bootstrapToggle();
+
+            //Init datepicker for date fields if data-datepicker attribute defined
+            //or if browser does not handle date inputs
+            $('.form-group input[type=date]').each(function (idx, elt) {
+                if (elt.type != 'date' || elt.hasAttribute('data-datepicker')) {
+                    elt.type = 'text';
+                    $(elt).datetimepicker($(elt).data('datepicker'));
+                }
+            });
+
+            
+            $('.side-body input[data-slug-origin]').each(function(i, el) {
+                $(el).slugify();
+            });
+
+            $('.form-group').on('click', '.remove-multi-image', function (e) {
+                $image = $(this).siblings('img');
+
+                params = {
+                    slug:   'pages',
+                    image:  $image.data('image'),
+                    id:     $image.data('id'),
+                    field:  $image.parent().data('field-name'),
+                    _token: 'weKMUko2xmMijqy0Ly6yGEgDga8iqkyDkMWkcGju'
+                }
+
+                $('.confirm_delete_name').text($image.data('image'));
+                $('#confirm_delete_modal').modal('show');
+            });
+            $('[data-toggle="tooltip"]').tooltip();
+        });
+</script>
+{% endblock %}                
